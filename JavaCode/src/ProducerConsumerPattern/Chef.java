@@ -22,13 +22,14 @@ public class Chef implements Runnable{
 				if(++count == 10) {
 					System.out.println("Out of food. closing");
 					restaurant.exec.shutdownNow();
+					return;
 				}
 				System.out.println("Order up!");
 				synchronized (restaurant.waitPerson) {
 					restaurant.meal = new Meal(count);
 					restaurant.waitPerson.notifyAll();
 				}
-				TimeUnit.MILLISECONDS.sleep(1000);
+				TimeUnit.MILLISECONDS.sleep(100);
 			}
 		} catch(InterruptedException e) {
 			System.out.println("Chef interrupted");

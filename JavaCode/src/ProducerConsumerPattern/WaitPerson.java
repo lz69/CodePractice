@@ -1,5 +1,7 @@
 package ProducerConsumerPattern;
 
+import java.util.concurrent.TimeUnit;
+
 public class WaitPerson implements Runnable{
 	
 	private Restaurant restaurant;
@@ -13,13 +15,16 @@ public class WaitPerson implements Runnable{
 		try {
 			while(!Thread.interrupted()) {
 				synchronized (this) {
-					while(restaurant.meal == null) {
+					while (restaurant.meal == null) {
 						wait();
 					}
 				}
 				System.out.println("WaitPerson got " + restaurant.meal);
+				synchronized (restaurant.busBoy) {
+					restaurant.busBoy.notifyAll();
+				}
+				TimeUnit.MILLISECONDS.sleep(100);
 				synchronized (restaurant.chef) {
-					restaurant.meal = null;
 					restaurant.chef.notifyAll();
 				}
 			}
