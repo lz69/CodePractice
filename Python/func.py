@@ -28,3 +28,9 @@ def calc(*numbers):
     return sum
 
 print(calc(1, 2, 3))
+
+def person(name, age, **kw):
+    print('name:', name, 'age:', age, 'other:', kw)
+
+person('zoulilang', '24')
+person('zoulilang', '24', city='BeiJing')
